@@ -12,3 +12,21 @@
 - oct(x) 将整数转化为八进制的小写字符串形式，如oct(425)='0o651'
 - chr(u) 将Unicode编码转化为对应字符
 - ord(s) 将字符s转化为对应的Unicode编码
+
+>以下是一些tips
+- '{0:.2f}'.format(1.2345)=1.23，.2f表示浮点数小数精度，即取小数点后两位；'{0:.2}'.format(1.2345)=1.2，.2表示字符串长度精度，即字符串的输出最大长度是2
+- import time 标准库，time.time()获取1970s至今的秒数，time.ctime()返回当前时间，年月日时分秒星期，以及time.gmtime用于返回计算机内部时间变量格式，可以定义模板来输出相应的效果时间，如t=time.gmtime() time.strftime('%Y-%m-%d %H:%M:%S',t)->'2019-07-21 22:03:22'<br>
+perf_counter() 返回一个CPU级别的精确时间计数值，单位为秒，由于这个计数值起点不确定，连续调用差值才有意义。如：start=time.perf_counter() end=time.perf_counter() t=end-start 获得的t为这个阶段的时间<br>
+sleep(s) 使进程休眠s秒
+- print()函数默认带换行符，如果要不换行，则输出时加end='',即print(s,end='')此时print输出后不会换行，而\r可以使光标回到当前行的最前面，这就可以使刷新本行的输出内容，如for i in range(10):print('\r{:^3.0f}%'.format(),end='') .0f表示不保留小数，注意在ide中\r功能被屏蔽，只有才cmd或shell中才能显示效果，如果做文本进度条，最好配合time.sleep(0.2)使变化不要这么快
+- 二分支结构的紧凑形式：表达式1 if 条件 else 表达式2，若满足条件则返回表达式1，否则返回表达式2，在python中，条件语句与其他语言有所不同，比如多分支结构是if-elif-else，比如，与逻辑不是用&&，而是用and；或逻辑不是用||，而是用or；非逻辑不是用！，而是用not。如if a>b and a>c :...； if a>b or a>c :...；if not a ：...
+- 异常处理：try:语句块1 except:语句块2（程序运行出错后运行） else:语句块3（程序正常运行后才会运行） finally：语句块4（始终会执行）
+- print('adad',32) 会输出adad 32而不会报错，中间有一个空格,print(s,end=',')表示不换行并且输出的s末尾跟一个逗号
+- 用CTRL+C组合键可以退出某些无限循环，或者循环时间较长的程序
+- 在for和while循环后可以加一个else：语句块，这个else只有当循环里的语句没有产生异常且正常完成时（不能用break退出，但可以用continue），才会执行
+- random库，random.seed(10)，产生种子10对应的随机数序列，若不用seed指定随机数种子，则默认为当前系统时间为随机数种子<br>
+random.random()生成一个[0.0,1.0)之间的随机小数;randint(a,b)生成一个[a,b]之间的随机整数，如random.randint(10,100)=64<br>
+randrange(m,n[,k])生成一个[m,n)之间以k为步长的随机整数，如random.randrange(10,100,10)=80<br>
+uniform(a,b)生成一个[a,b]之间的随机小数，如random.uniform(10,100)=13.09213681236<br>
+- 如果某行代码特别长，可以在这段代码中增加\来进行换行，即将这一行代码分为好几行，并在每一行的后面跟一个\使之被系统看做是同一行
+- 
