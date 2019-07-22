@@ -12,6 +12,7 @@
 - oct(x) 将整数转化为八进制的小写字符串形式，如oct(425)='0o651'
 - chr(u) 将Unicode编码转化为对应字符
 - ord(s) 将字符s转化为对应的Unicode编码
+- map(函数名，组合数据类型)（即对第二个参数代表的组合数据类型的每一个元素，都进行一次第一个参数代表的函数操作，生成一个map类型），如：map(eval,line.split(',')) 这里line是一个用逗号分隔的字符串类似于'12,33,87,123',此时先把line转化为分割后的列表['12','33','87','123']，然后利用map函数，用eval对列表中的每个元素都执行一次操作，当然此时生成的还是map类型，需要用ls=list(map(eval,line.split(',')))将之转化为列表
 
 ### 常用库及python使用注意点
 >以下是一些tips
@@ -34,4 +35,37 @@ random.random()生成一个[0.0,1.0)之间的随机小数;randint(a,b)生成一�
 randrange(m,n[,k])生成一个[m,n)之间以k为步长的随机整数，如random.randrange(10,100,10)=80<br>
 uniform(a,b)生成一个[a,b]之间的随机小数，如random.uniform(10,100)=13.09213681236<br>
 - 如果某行代码特别长，可以在这段代码中增加\来进行换行，即将这一行代码分为好几行，并在每一行的后面跟一个\使之被系统看做是同一行
-- 
+- 函数定义中，可以用可选参数，如def func(a,b=1)，此时b为可选参数，如果调用函数时输入b，则用你输入的值，否则就用默认值<br>
+可以用可变参数，如def func(a,\*b)，此时b可以是一个参数也可以是多个参数,典型的如max和min函数<br>
+参数传递可以用默认位置传递或者按照参数名称传递，如def func(a,b=1)  位置：func(8,3) 名称：func(b=3,a=8)<br>
+函数内部如果要调用一般的全局变量，需要对全局变量进行global声明，但如果是调用组合数据类型，且在函数内部并没有创建这个组合数据类型，而全局变量中又恰好有这个组合数据类型，则相当于在函数内部调用全局变量的组合数据类型，此时无需声明global,但如果在函数内部被真实创建，则不会调用全局变量<br>
+- PyInstaller库<br>
+pyinstaller -h 查看帮助<br>
+pyinstaller -F 在dist文件夹中生成独立文件，其中的build文件和cache文件可删除<br>
+pyinstaller -i 图标名.ico -F 源文件名.py 即可生成指定图标的打包文件<br>
+- 文件读取操作：<br>
+打开文件：f=open('文件路径','打开方式')，其中打开方式有:r（只读），w（覆盖写），a（追加写），x（创建写），r+,w+,a+（同时有读写功能）<br>
+内容读取：s=f.read(size=-1) （读入全部内容到字符串s中，如果给出参数，则读入前size长度）；　s=f.readline(size=-1)（读入一行内容，如果给出参数，读入该行前size长度）；　s=f.readlines(hint=-1)（读入文件所有行，以每行为元素形成列表，如果给出参数，读入前hint行）；<br>
+文件逐行遍历：for line in f.readlines()：print(line) 或者 for line in f:print(line)，前者要将文件全部读入，耗费内存，而后者并不在内存中读入文件，因此效率更高<br>
+文件写入：f.write(s)（向文件写入一个字符串s）； f.writelines(ls)（将一个元素全为字符串的列表写入元素，注意此操作是先把列表中的字符串合成一个字符串，然后统一写入，并不会分行写入）<br>
+文件指针操作函数：f.seek(offset)（改变当前文件操作指针的位置，offset=0即为文件开头，offset=1即为当前位置，offset=2即为文件结尾）<br>
+关闭文件：f.close()<br>
+- wordcloud库：<br>
+分隔：以空格分隔单词；统计：单词出现次数并过滤出现少的；字体：根据统计配置字号；布局：颜色环境尺寸<br>
+创建词云对象：w=worldcloud.WorldCloud()（创建词云对象）<br>
+加载词云文本：w.generate(txt)（向WorldCloud对象w中加载文本txt）如w.generate('python and wordcloud')<br>
+输出词云文件：w.to_file(filename)（将词云输出为图像文件，可以是.jpg或.png格式）如w.to_file('outfile.png')在当前目录下输出图像文件，也可以加绝对路径<br>
+**设置词云对象参数**：w=worldcloud.WorldCloud(width=400,height=200，min_font_size=4,max_font_size=自动,font_step=1,font_path=None,max_words=200,stop_words=集合)<br>
+其中的参数有：<br>
+1、图片参数：生成图片的宽度width,默认400;高度height,默认200<br>
+2、词云字体参数：字体最小字号min_font_size,默认4号;最大字号max_font_size,根据高度自动调节<br>
+3、词云中字体字号的步进间隔：font_step,默认为1<br>
+4、指定字体文件的路径：font_path,默认为None，微软雅黑是'msyh.ttc'<br>
+5、指定词云显示的最大单词数量:max_words,默认200<br>
+6、指定词云不显示的单词集合:stop_words={'','',...}；<br>
+7、指定词云形状：默认为长方形，需要引用imread()函数 from scipy.misc import imread->mk=imread('pic.png')->w=wordcloud.WordCloud(mask=mk) 其中'pic.png'为指定的词云形状<br>
+8、指定词云图片的背景颜色：background_color，默认为黑色，w=wordcloud.WorldCloud(bakcground_color='white')指定为白色<br>
+
+
+
+
