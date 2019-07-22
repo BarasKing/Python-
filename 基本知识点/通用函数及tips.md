@@ -55,7 +55,7 @@ pyinstaller -i 图标名.ico -F 源文件名.py 即可生成指定图标的打�
 创建词云对象：w=worldcloud.WorldCloud()（创建词云对象）<br>
 加载词云文本：w.generate(txt)（向WorldCloud对象w中加载文本txt）如w.generate('python and wordcloud')<br>
 输出词云文件：w.to_file(filename)（将词云输出为图像文件，可以是.jpg或.png格式）如w.to_file('outfile.png')在当前目录下输出图像文件，也可以加绝对路径<br>
-**设置词云对象参数**：w=worldcloud.WorldCloud(width=400,height=200，min_font_size=4,max_font_size=自动,font_step=1,font_path=None,max_words=200,stop_words=集合)<br>
+**设置词云对象参数**：w=worldcloud.WorldCloud(width=400,height=200，min_font_size=4,max_font_size=自动, font_step=1, font_path=None, max_words=200, stop_words=集合)<br>
 其中的参数有：<br>
 1、图片参数：生成图片的宽度width,默认400;高度height,默认200<br>
 2、词云字体参数：字体最小字号min_font_size,默认4号;最大字号max_font_size,根据高度自动调节<br>
@@ -63,9 +63,22 @@ pyinstaller -i 图标名.ico -F 源文件名.py 即可生成指定图标的打�
 4、指定字体文件的路径：font_path,默认为None，微软雅黑是'msyh.ttc'<br>
 5、指定词云显示的最大单词数量:max_words,默认200<br>
 6、指定词云不显示的单词集合:stop_words={'','',...}；<br>
-7、指定词云形状：默认为长方形，需要引用imread()函数 from scipy.misc import imread->mk=imread('pic.png')->w=wordcloud.WordCloud(mask=mk) 其中'pic.png'为指定的词云形状<br>
+7、指定词云形状：默认为长方形，需要引用imread()函数 from scipy.misc import imread->mk=imread('pic.png')-> w=wordcloud.WordCloud(mask=mk) 其中'pic.png'为指定的词云形状<br>
 8、指定词云图片的背景颜色：background_color，默认为黑色，w=wordcloud.WorldCloud(bakcground_color='white')指定为白色<br>
 生成词云的基本操作：对中文，首先引入jieba库和wordcloud库，利用jieba.add_word('词语')将你想要显示的词语先加入jieba的词库中；然后对字符串txt进行ls=jieba.lcut(txt)，将词语转化成列表；然后用s=' '.join(ls)将ls列表中的词语用空格连接起来并转化为一个字符串，此时s满足词云库的输入方式；然后创建词云对象w=wordcloud.WordCloud(font_path='msyh.ttc',background_color='white',...)；然后将字符串加载到词云对象中，w.generate(s);然后将图片输出到指定路径w.to_file('D:\\python.jpg或.png')
+- os库：可以先import os.path as op,常用函数介绍：<br>
+返回绝对路径：os.path.abspath(path)：返回相对路径path（文件名）在当前系统中的绝对路径，如os.path.abspath('file.txt')='D:\\...\\file.txt'<br>
+返回相对路径：os.path.relpath(path):返回当前程序所在地址与输入文件地址path之间的相对路径（relative path），如os.path.relpath('D:\\gehao\\documents\\matlab')='..\\..\\matlab'<br>
+归一化path形式：os.path.normpath(path)：归一化path形式统一用\\分隔路径，os.path.normpath('D://gehao//documets')='D:\\gehao\\documets'<br>
+返回path中的目录名称：os.path.dirname(path)返回path路径中的目录部分内容，如os.path.dirname('D:\\gehao\\documents\\1.jpg')='D:\\gehao\\documents'<br>
+返回path中的文件名称：os.path.basename(path)返回path路径中的文件名称内容，如os.path.basename('D:\\gehao\\documents\\1.jpg')='1.jpg'<br>
+组合路径字符串：os.path.join(path,\*paths)组合path以及不确定个数的paths，形成一个新的路径字符串，如os.path.join('D:\\','gehao\\','documents\\1.jpg')='D:\\gehao\\documents\\1.jpg'<br>
+判断文件或目录是否存在：os.path.exists(path)判断path这条路径是否真的存在，是则返回True，否则返回False，如os.path.exists('D:\\gehao\\documents\\1.jpg')=True<br>
+返回path对应文件大小：os.path.getsize(path)返回path路径上的文件大小，以字节为单位，如os.path.getsize('D:\\gehao\\documents\\1.jpg')<br>
+返回当前路径：os.getcwd()（返回程序的当前路径，即此.py程序所在的路径）<br>
+改变当前路径：os.chdir(path)（修改当前程序操作的路径）如os.chdir('D:')程序作用的路径就到了D盘<br>
+
+
 
 
 
