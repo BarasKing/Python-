@@ -20,7 +20,11 @@
 perf_counter() 返回一个CPU级别的精确时间计数值，单位为秒，由于这个计数值起点不确定，连续调用差值才有意义。如：start=time.perf_counter() end=time.perf_counter() t=end-start 获得的t为这个阶段的时间<br>
 sleep(s) 使进程休眠s秒
 - print()函数默认带换行符，如果要不换行，则输出时加end='',即print(s,end='')此时print输出后不会换行，而\r可以使光标回到当前行的最前面，这就可以使刷新本行的输出内容，如for i in range(10):print('\r{:^3.0f}%'.format(),end='') .0f表示不保留小数，注意在ide中\r功能被屏蔽，只有才cmd或shell中才能显示效果，如果做文本进度条，最好配合time.sleep(0.2)使变化不要这么快
-- 二分支结构的紧凑形式：表达式1 if 条件 else 表达式2，若满足条件则返回表达式1，否则返回表达式2，在python中，条件语句与其他语言有所不同，比如多分支结构是if-elif-else，比如，与逻辑不是用&&，而是用and；或逻辑不是用||，而是用or；非逻辑不是用！，而是用not。如if a>b and a>c :...； if a>b or a>c :...；if not a ：...
+- 二分支结构的紧凑形式：表达式1 if 条件 else 表达式2，若满足条件则返回表达式1，否则返回表达式2<br>
+在python中，条件语句与其他语言有所不同：<br>
+比如，多分支结构是if-elif-else<br>
+比如，与逻辑不是用&&，而是用and；或逻辑不是用||，而是用or；非逻辑不是用！，而是用not。如if a>b and a>c :...； if a>b or a>c :...；if not a ：...<br>
+比如，在其他语言中2<x<=4这样的形式是错误的，但是在python中是可以使用这种方式来进行同时的逻辑判断的
 - 异常处理：try:语句块1 except:语句块2（程序运行出错后运行） else:语句块3（程序正常运行后才会运行） finally：语句块4（始终会执行）
 - print('adad',32) 会输出adad 32而不会报错，中间有一个空格,print(s,end=',')表示不换行并且输出的s末尾跟一个逗号
 - 用CTRL+C组合键可以退出某些无限循环，或者循环时间较长的程序
