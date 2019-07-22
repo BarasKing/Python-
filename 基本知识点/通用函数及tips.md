@@ -65,6 +65,7 @@ pyinstaller -i 图标名.ico -F 源文件名.py 即可生成指定图标的打�
 6、指定词云不显示的单词集合:stop_words={'','',...}；<br>
 7、指定词云形状：默认为长方形，需要引用imread()函数 from scipy.misc import imread->mk=imread('pic.png')->w=wordcloud.WordCloud(mask=mk) 其中'pic.png'为指定的词云形状<br>
 8、指定词云图片的背景颜色：background_color，默认为黑色，w=wordcloud.WorldCloud(bakcground_color='white')指定为白色<br>
+生成词云的基本操作：对中文，首先引入jieba库和wordcloud库，利用jieba.add_word('词语')将你想要显示的词语先加入jieba的词库中；然后对字符串txt进行ls=jieba.lcut(txt)，将词语转化成列表；然后用s=' '.join(ls)将ls列表中的词语用空格连接起来并转化为一个字符串，此时s满足词云库的输入方式；然后创建词云对象w=wordcloud.WordCloud(font_path='msyh.ttc',background_color='white',...)；然后将字符串加载到词云对象中，w.generate(s);然后将图片输出到指定路径w.to_file('D:\\python.jpg或.png')
 
 
 
