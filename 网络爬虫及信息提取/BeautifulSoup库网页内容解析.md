@@ -259,7 +259,7 @@ cmd测试结果如下：
         print(sibling)
  
 #### bs4库的prettify()方法
-- 
+- prettify()方法使得soup对象及其中的部分输出效果更明显也更友好 
 
 实验效果如下：
 
