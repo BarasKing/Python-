@@ -90,7 +90,6 @@ Comment：标签内字符串的注释部分，一种特殊的Comment类型<br>
     <body>
     <p class="title"><b>The demo python introduces several python courses.</b></p>
     <p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
-
     <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a> and <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>.</p>
     </body></html>
     
@@ -145,5 +144,76 @@ Comment：标签内字符串的注释部分，一种特殊的Comment类型<br>
     >>> type(newsoup.p.string) #查看p标签的类型
     <class 'bs4.element.NavigableString'> #是bs4定义的非属性字符串类型
     #注意，注释和非注释在显示内容的时候并没有额外标记，只能通过类型查看，不过这种场景应用不多
+
+#### 基于bs4库的HTML遍历内容方法
+>遍历分为三种方式：下行遍历，上行遍历，水平遍历
+
+##### 标签树的下行遍历
+- .contents：子节点的列表，将<tag>所有儿子节点存入列表
+- .children：子节点的迭代类型，与.contents类似，用于循环遍历儿子节点
+- .descendants：子孙节点的迭代类型，包含所有子孙节点，用于遍历循环
+
+cmd测试内容如下：
     
- 
+    soup=BeautifulSoup(demo,'html.parser') #获取页面的HTML信息
+    >>> soup.head #查看head头标签的内容
+    <head><title>This is a python demo page</title></head> #含有两层标签
+    >>> soup.head.contents #获取head标签的子节点的列表
+    [<title>This is a python demo page</title>] #其子节点为title标签
+    
+    #.contents获得存储为列表类型的子节点，len得到子节点个数，并用列表下标索引取值
+    >>> soup.body.contents #获取body标签的子节点的列表，子节点并不仅仅包括标签节点，也包括字符串节点，比如'\n'等也算子节点
+    ['\n', <p class="title"><b>The demo python introduces several python courses.</b></p>, '\n', <p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:<a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a> and <a class="py2"href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>.</p>, '\n']
+    >>> len(soup.body.contents) #用len函数查看body标签儿子节点的数量
+    5
+    >>> soup.body.contents[1] #利用列表类型的下标查看body标签的第一个儿子节点的内容
+    <p class="title"><b>The demo python introduces several python courses.</b></p>
+    
+    #.children遍历儿子节点
+    >>> soup.body.children #查看body标签的子节点children类型的内容
+    <list_iterator object at 0x000001E53C2ECB38>
+    >>> len(soup.body.children) #查看children类型的长度，得知此类型无法计算长度
+    Traceback (most recent call last):
+      File "<pyshell#53>", line 1, in <module>
+        len(soup.body.children)
+    TypeError: object of type 'list_iterator' has no len()
+    >>> for child in soup.body.children: #遍历输出body子节点children类型的内容，空行是由'\n'输出造成的，由于print附带了一个'\n'，因此会空两行
+            print(child)
+
+
+    <p class="title"><b>The demo python introduces several python courses.</b></p>
+
+
+    <p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
+    <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a> and <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>.</p>
+
+
+    #.descendants遍历子孙节点
+    >>> soup.body.descendants #查看子孙节点descendants的内容
+    <generator object Tag.descendants at 0x000001D4A58CF138>
+    >>> len(soup.body.descendants) #查看其长度，同上，没有长度
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: object of type 'generator' has no len()
+    >>> for child in soup.body.descendants: #遍历输出子孙节点，空格原因同上
+            print(child)
+
+
+    <p class="title"><b>The demo python introduces several python courses.</b></p>
+    <b>The demo python introduces several python courses.</b>
+    The demo python introduces several python courses.
+
+
+    <p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
+    <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a> and <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>.</p>
+    Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
+
+    <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a>
+    Basic Python
+     and
+    <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>
+    Advanced Python
+    .
+
+    
+##### 标签树的上行遍历
