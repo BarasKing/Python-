@@ -20,7 +20,7 @@
 #### 针对来源审查的解决方案
 - 可以通过**r.request.headers**来查看我们发给url指定服务器的头部信息的内容，默认是'User-Agent': 'python-requests/2.22.0'，即告诉服务器这次访问是由python的request程序产生的，一些有来源审查的网站会使这样的访问出错，此时的r.status_code不等于200
 - 可以通过更改头部信息，来模拟浏览器向目标服务器发起请求，首先需要构造键值对**kv={'user-agent':'Mozilla/5.0'}**,注意，这里的Mozilla/5.0说明的是此时的user-agent可能是一个浏览器（5.0表示版本号），而这个浏览器可能是火狐、Mozilla甚至是IE/10的浏览器，因为Mozilla/5.0是一个很标准的浏览器的身份标识的字段，然后在get函数中加入r=requests.get(url,headers=kv)
-- 通过headers字段让代码模拟浏览器向服务器提供HTTP请求，可以爬取对信息保护较好的网站的相关内容，代码如下
+>通过headers字段让代码模拟浏览器向服务器提供HTTP请求，可以爬取对信息保护较好的网站的相关内容，代码如下
 
     import requests
     url=''
