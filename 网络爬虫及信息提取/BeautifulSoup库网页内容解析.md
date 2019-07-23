@@ -146,7 +146,7 @@ Comment：标签内字符串的注释部分，一种特殊的Comment类型<br>
     #注意，注释和非注释在显示内容的时候并没有额外标记，只能通过类型查看，不过这种场景应用不多
 
 #### 基于bs4库的HTML遍历内容方法
->遍历分为三种方式：下行遍历，上行遍历，水平遍历
+>遍历分为三种方式：下行遍历，上行遍历，水平遍历，其中的迭代类型只能用在for-in的遍历当中
 
 ##### 标签树的下行遍历
 - .contents：子节点的列表，将<tag>所有儿子节点存入列表
@@ -217,3 +217,95 @@ cmd测试内容如下：
 
     
 ##### 标签树的上行遍历
+- .parent：返回节点的父亲标签
+- .parents：返回节点先辈标签的迭代类型，用于循环遍历先辈节点
+
+cmd测试结果如下：
+
+    >>> soup.title.parent #显示title标签的父亲标签
+    <head><title>This is a python demo page</title></head>
+    >>> soup.html.parent #显示html标签的父亲标签，即本身
+    <html><head><title>This is a python demo page</title></head>
+    <body>
+    <p class="title"><b>The demo python introduces several python courses.</b></p>
+    <p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
+    <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a> and <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>.</p>
+    </body></html>
+    >>> soup.parent #显示soup的父亲标签，没有显示，即soup的父亲为空
+    
+    #标签树的上行遍历
+    soup=BeautifulSoup(demo,'html.parser')
+    >>> for parent in soup.a.parents: 对soup.a标签所有先辈的名字进行打印，在遍历的过程中会遍历到soup本身，而soup的先辈并不存在.name信息，需要做一个区分，如果其先辈是None，就不打印这方面的信息
+            if parent is None:
+                    print(parent)
+            else:
+                    print(parent.name)
+    p
+    body
+    html
+    [document]
+##### 标签树的平行遍历
+- .next_sibling：返回按照HTML文本顺序的下一个平行节点标签
+- .previous_sibling：返回按照HTML文本顺序的上一个平行节点标签
+- .next_siblings：迭代类型，返回按照HTML文本顺序的后续所有平行节点标签
+- .previous_siblings：迭代类型，返回按照HTML文本顺序的前续所有平行节点标签
+- 所有的平行遍历必须发生在同一个父节点下的各节点间，不同父节点的节点之间并不构成平行关系，遍历并不能排除Navigablestring
+
+遍历形式如下：
+    
+    for sibling in soup.a.next_siblings: #遍历a的后续节点
+        print(sibling)
+    for sibling in soup.a.previous_siblings: #遍历a的前续节点
+        print(sibling)
+ 
+#### bs4库的prettify()方法
+- 
+
+实验效果如下：
+
+    >>> from bs4 import BeautifulSoup
+    >>> soup=BeautifulSoup(demo,'html.parser')
+    >>> soup #查看soup原本的内容
+    <html><head><title>This is a python demo page</title></head>
+    <body>
+    <p class="title"><b>The demo python introduces several python courses.</b></p>
+    <p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
+    <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">Basic Python</a> and <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">Advanced Python</a>.</p>
+    </body></html>
+    >>> soup.prettify() #对soup进行prettify方法使用后的内容，每一项后面多了\n
+    '<html>\n <head>\n  <title>\n   This is a python demo page\n  </title>\n </head>\n <body>\n  <p class="title">\n   <b>\n    The demo python introduces several python courses.\n   </b>\n  </p>\n  <p class="course">\n   Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:\n   <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">\n    Basic Python\n   </a>\n   and\n   <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">\n    Advanced Python\n   </a>\n   .\n  </p>\n </body>\n</html>'
+    >>> print(soup.prettify()) #把soup进行prettofy方法后的内容输出，分行明显
+    <html>
+     <head>
+      <title>
+       This is a python demo page
+      </title>
+     </head>
+     <body>
+      <p class="title">
+       <b>
+        The demo python introduces several python courses.
+       </b>
+      </p>
+      <p class="course">
+       Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:
+       <a class="py1" href="http://www.icourse163.org/course/BIT-268001" id="link1">
+        Basic Python
+       </a>
+       and
+       <a class="py2" href="http://www.icourse163.org/course/BIT-1001870001" id="link2">
+        Advanced Python
+       </a>
+       .
+      </p>
+     </body>
+    </html>
+    
+    #bs4和python3.x都支持utf-8编码    
+    >>> soup=BeautifulSoup('<p>中文</p>','html.parser')
+    >>> soup.p.string
+    '中文'
+    >>> print(soup.p.prettify())
+    <p>
+     中文
+    </p>
