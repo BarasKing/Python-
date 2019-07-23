@@ -6,16 +6,17 @@ BeautifulSoup库的使用方式：
 
     from bs4 import BeautifulSoup #BeautifulSoup是一个类
     soup=BeautifulSoup('<p>data</p>','html.parser') #第一个参数是我们需要解析的html格式的信息可以是变量，第二个参数是解析这个变量使用的解析器
+    
 在cmd上的测试结果：
 
-    >>> import requests
-    >>> r=requests.get('https://python123.io/ws/demo.html')
-    >>> r.text #得到的是杂乱无章的源码信息，可以被看作是一个没有html标签的字符串文档，需要被BeautifulSoup库解析后才能使用
+    \>>> import requests
+    \>>> r=requests.get('https://python123.io/ws/demo.html')
+    \>>> r.text #得到的是杂乱无章的源码信息，可以被看作是一个没有html标签的字符串文档，需要被BeautifulSoup库解析后才能使用
     '<html><head><title>This is a python demo page</title></head>\r\n<body>\r\n<p class="title"><b>The demo python introduces several python courses.</b></p>\r\n<p class="course">Python is a wonderful general-purpose programming language. You can learn Python from novice to professional by tracking the following courses:\r\n<a href="http://www.icourse163.org/course/BIT-268001" class="py1" id="link1">Basic Python</a> and <a href="http://www.icourse163.org/course/BIT-1001870001" class="py2" id="link2">Advanced Python</a>.</p>\r\n</body></html>'
-    >>> demo=r.text
-    >>> from bs4 import BeautifulSoup
-    >>> soup=BeautifulSoup(demo,'html.parser')
-    >>> print(soup.prettify())
+    \>>> demo=r.text
+    \>>> from bs4 import BeautifulSoup
+    \>>> soup=BeautifulSoup(demo,'html.parser')
+    \>>> print(soup.prettify())
     <html>
      <head>
       <title>
