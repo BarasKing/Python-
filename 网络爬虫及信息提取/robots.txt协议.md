@@ -10,7 +10,7 @@
 #### robots协议（Robots Exclusion Standard，网络爬虫排除标准）
 - 作用：网站告知网络爬虫哪些页面可以抓取，哪些不行，如果该网站无robots协议，意味着可以无限制爬取所有内容
 - 形式：在网站根目录下的robots.txt文件
-- robots协议基本语法：
+robots协议基本语法：
 
     #注释，*代表所有，/代表根目录
     User-agent:*
