@@ -103,4 +103,31 @@ shell：启动URL调试命令行 格式：scrapy shell [url]<br>
               ]
         for url in urls: #一次提交一个请求，尤其是在要访问的链接数十分庞大时，可以有效节省计算资源
             yield scrapy.Request(url=url,callback=self.parse)
-    
+
+#### Scrapy爬虫的基本使用
+>scrapy爬虫的数据类型：Request类，Response类，Item类
+- Request类：class scrapy.http.Request()<br>
+Request对象表示一个HTTP请求<br>
+由Spider生成，由Downloader执行，有六种属性或方法：<br>
+.url：Request对应的请求URL地址<br>
+.method：对应的请求方法，'GET','POST'等<br>
+.headers：字典类型风格的请求头<br>
+.body：请求内容主体，字符串类型<br>
+.meta：用户添加的扩展信息，在Scrapy内部模块间传递信息使用<br>
+.copy：复制该请求<br>
+- Response类：class scrapy.http.Response()<br>
+Response对象表示一个HTTP响应<br>
+由Downloader生成，由Spider处理，有七种属性或方法：<br>
+.url：Response对应的URL地址<br>
+.status：HTTP状态码，默认是200<br>
+.headers：Response对应的头部信息<br>
+.body：Response对应的内容信息，字符串类型<br>
+.flags：一组标记<br>
+.request：产生Response类型对应的Request对象<br>
+.copy()：复制该响应<br>
+- Item类：class scrapy.item.Item()<br>
+Item对象表示一个从HTML页面中提取的信息内容<br>
+由Spider生成，由Item Pipline处理<br>
+Item类似字典类型，可以按照字典类型操作<br>
+- Scrapy爬虫支持多种HTML提取方法：Beautiful Soup、lxml、re、Xpath Selector、CSS Selector
+- CSS Selector的使用方法：<HTML>.css('a::attr(herf)').extract() 其中a是标签名称，attr(href)是标签属性
